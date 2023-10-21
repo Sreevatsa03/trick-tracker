@@ -1,89 +1,31 @@
 import "./styles.css";
-import LiveWebcam from "./LiveWebcam";
+import LiveWebcam from "./components/LiveWebcam";
+import TrickDetected from "./components/TrickDetected";
 
 export default function App() {
   return (
-    <div>
-      <h1>Welcome to Trick Tracker!</h1>
-      <LiveWebcam/>
-      {/* <div>
-        <button
-          disabled={
-            recordWebcam.status === CAMERA_STATUS.OPEN ||
-            recordWebcam.status === CAMERA_STATUS.RECORDING ||
-            recordWebcam.status === CAMERA_STATUS.PREVIEW
-          }
-          onClick={recordWebcam.open}
-        >
-          Open camera
-        </button>
-        <button
-          disabled={
-            recordWebcam.status === CAMERA_STATUS.CLOSED ||
-            recordWebcam.status === CAMERA_STATUS.PREVIEW
-          }
-          onClick={recordWebcam.close}
-        >
-          Close camera
-        </button>
-        <button
-          disabled={
-            recordWebcam.status === CAMERA_STATUS.CLOSED ||
-            recordWebcam.status === CAMERA_STATUS.RECORDING ||
-            recordWebcam.status === CAMERA_STATUS.PREVIEW
-          }
-          onClick={recordWebcam.start}
-        >
-          Start recording
-        </button>
-        <button
-          disabled={recordWebcam.status !== CAMERA_STATUS.RECORDING}
-          onClick={recordWebcam.stop}
-        >
-          Stop recording
-        </button>
-        <button
-          disabled={recordWebcam.status !== CAMERA_STATUS.PREVIEW}
-          onClick={recordWebcam.retake}
-        >
-          Retake
-        </button>
-        <button
-          disabled={recordWebcam.status !== CAMERA_STATUS.PREVIEW}
-          onClick={recordWebcam.download}
-        >
-          Download
-        </button>
-        <button
-          disabled={recordWebcam.status !== CAMERA_STATUS.PREVIEW}
-          onClick={getRecordingFileHooks}
-        >
-          Get recording
-        </button>
+    <div className="container text-center">
+      <div className="row">
+        <div className="col-sm-12">
+          <header className="my-4">
+            <h1>Welcome to Trick Tracker!</h1>
+          </header>
+        </div>
       </div>
-
-      <video
-        ref={recordWebcam.webcamRef}
-        style={{
-          display: `${
-            recordWebcam.status === CAMERA_STATUS.OPEN ||
-            recordWebcam.status === CAMERA_STATUS.RECORDING
-              ? "block"
-              : "none"
-          }`
-        }}
-        autoPlay
-        muted
-      />
-      <video
-        ref={recordWebcam.previewRef}
-        style={{
-          display: `${
-            recordWebcam.status === CAMERA_STATUS.PREVIEW ? "block" : "none"
-          }`
-        }}
-        controls
-      /> */}
+      <div className="row">
+        <div className="col-sm-8 mx-auto">
+          <main className="my-4">
+            <LiveWebcam />
+          </main>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-sm-12">
+          <footer className="my-4">
+            <TrickDetected />
+          </footer>
+        </div>
+      </div>
     </div>
   );
 }
