@@ -1,58 +1,11 @@
 import "./styles.css";
-import { useReactMediaRecorder } from "react-media-recorder";
-import VideoRecorder from "react-video-recorder";
-import {
-  RecordWebcam,
-  useRecordWebcam,
-  CAMERA_STATUS
-} from "react-record-webcam";
-import LiveVideo from "./LiveWebcam";
 import LiveWebcam from "./LiveWebcam";
-const OPTIONS = {
-  filename: "test-filename",
-  fileType: "mp4",
-  width: 1920,
-  height: 1080
-};
-const RecordView = () => {
-  const {
-    status,
-    startRecording,
-    stopRecording,
-    mediaBlobUrl
-  } = useReactMediaRecorder({
-    video: true,
-    facingMode: { exact: "environment" }
-  });
-
-  return (
-    <div>
-      <p>{status}</p>
-      <button onClick={startRecording}>Start Recording</button>
-      <button onClick={stopRecording}>Stop Recording</button>
-      <video src={mediaBlobUrl} controls autoPlay loop />
-    </div>
-  );
-};
 
 export default function App() {
-  const recordWebcam = useRecordWebcam(OPTIONS);
-  const getRecordingFileHooks = async () => {
-    const blob = await recordWebcam.getRecording();
-    console.log({ blob });
-  };
-
-  const getRecordingFileRenderProp = async (blob) => {
-    console.log({ blob });
-  };
   return (
     <div>
       <h1>Welcome to Trick Tracker!</h1>
-      <h2>Live webcame footage:</h2>
-
-      <div>
       <LiveWebcam/>
-        </div>
       {/* <div>
         <button
           disabled={

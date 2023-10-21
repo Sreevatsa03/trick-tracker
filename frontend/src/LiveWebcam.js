@@ -1,15 +1,17 @@
 import React from 'react';
 
 const LiveWebcam = () => {
-  const webcamStreamURL = 'https://www.earthcam.com/cams/includes/image.php?logo=0&amp;playbutton=0&amp;s=1&amp;img=0RC1tzOXJTEaJtMiEAhICw%3D%3D';
+  const videoStreamURL = 'http://127.0.0.1:5000/video_feed';  // Update this URL to match your Flask route
 
   return (
     <div>
-      <video controls autoPlay src={webcamStreamURL} />
+      <h1>Live Video Stream</h1>
+      <img src={videoStreamURL} alt="webcam" />
     </div>
   );
 };
 
 export default LiveWebcam;
+
 
 
