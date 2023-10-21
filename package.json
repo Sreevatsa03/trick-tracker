@@ -18,7 +18,12 @@
     "react-router-dom": "^6.4.3",
     "react-scripts": "^5.0.1",
     "redux": "^4.2.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "react-media-recorder": "1.6.3",
+    "react-record-webcam": "0.0.14",
+    "react-video-recorder": "3.19.1",
+    "recordrtc": "5.6.2",
+    "styled-components": "5.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
