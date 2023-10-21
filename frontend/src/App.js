@@ -6,6 +6,8 @@ import {
   useRecordWebcam,
   CAMERA_STATUS
 } from "react-record-webcam";
+import LiveVideo from "./LiveWebcam";
+import LiveWebcam from "./LiveWebcam";
 const OPTIONS = {
   filename: "test-filename",
   fileType: "mp4",
@@ -46,8 +48,12 @@ export default function App() {
   return (
     <div>
       <h1>Welcome to Trick Tracker!</h1>
-      <h2>Start recording your trick:</h2>
+      <h2>Live webcame footage:</h2>
+
       <div>
+      <LiveWebcam/>
+        </div>
+      {/* <div>
         <button
           disabled={
             recordWebcam.status === CAMERA_STATUS.OPEN ||
@@ -124,7 +130,7 @@ export default function App() {
           }`
         }}
         controls
-      />
+      /> */}
     </div>
   );
 }
