@@ -45,8 +45,8 @@ export default function App() {
   };
   return (
     <div>
-      <h1>3.react-record-webcam</h1>
-      <p>Camera status: {recordWebcam.status}</p>
+      <h1>Welcome to Trick Tracker!</h1>
+      <h2>Start recording your trick:</h2>
       <div>
         <button
           disabled={
