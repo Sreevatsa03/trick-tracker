@@ -4,6 +4,7 @@ import numpy as np
 import os
 import tqdm
 from sklearn.preprocessing import LabelBinarizer
+from ultralytics import YOLO
 
 SEQUENCE_LENGTH = 40
 
@@ -112,7 +113,7 @@ class TrickTrackerAPI:
         # return the generator    
         return generator
     
-    def predict(self):
+    def classify(self):
         """
         Make a trick prediction on a video
         """
@@ -186,54 +187,94 @@ class TrickTrackerAPI:
         # return the prediction
         return {"Prediction": LABELS[max_index], "Accuracy": str(predictions[0][max_index])}
     
+    def predict_height(self):
+
+        # initialize YOLO model
+        model = YOLO("yolov8n-seg.pt")
+
+        # model predict
+        results = model.predict(source=self.video_path, show=True)
+
+        # find fps of video
+        cap = cv2.VideoCapture(self.video_path)
+        fps = cap.get(cv2.CAP_PROP_FPS)
+
+        # initialize numpy array
+        skateboard = np.array([])
+        is_skateboard = True
+
+        # loop through results
+        for result in results:
+            for b in result.boxes:
+
+                # if object is skateboard add to numpy array
+                if result.names[int(b.cls)] == "skateboard":
+                    skateboard = np.append(skateboard, b.xyxy)
+
+        # if no skateboard is detected return 0
+        if len(skateboard) == 0:
+            return {"is_skateboard": False, "height": 0}
+
+        # reshape the numpy array
+        skateboard = np.reshape(skateboard, (-1, 4))
+
+        # function to find center of bounding box
+        def find_center(box):
+            # get the x and y coordinates
+            x1, y1, x2, y2 = box
+
+            # find the center
+            x_center = (x1 + x2) / 2
+            y_center = (y1 + y2) / 2
+
+            # return the center
+            return x_center, y_center
+
+        # find the center of each bounding box
+        skateboard_centers = np.apply_along_axis(find_center, 1, skateboard)
+
+        # get the y coordinates
+        y = skateboard_centers[:, 1]
+
+        # Smooth the data using a moving average
+        window_size = 3  # Can be adjusted based on the amount of smoothing you want
+        y_smooth = np.convolve(y, np.ones(window_size)/window_size, mode='valid')
+
+        # Calculate the derivative
+        dy = np.diff(y_smooth)
+
+        # Identify breakpoints where the derivative changes sign
+        breakpoints = np.where(np.diff(np.sign(dy)))[0] + window_size // 2
+
+        # find largest gap between consecutive breakpoints
+        largest_gap = 0
+
+        for i in range(len(breakpoints) - 1):
+            gap = breakpoints[i + 1] - breakpoints[i]
+            if gap > largest_gap:
+                largest_gap = gap
+
+        # calculate time between breakpoints in seconds
+        time_between = largest_gap / fps
+
+        # calculate final height
+        final_y = 4.9 * (time_between ** 2)
+
+        # return the final height
+        return {"is_skateboard": is_skateboard, "height": final_y}
+    
 def main():
     # initialize the api
-    # trick_tracker = TrickTrackerAPI('../Ollie108.mov')
-    # trick_tracker = TrickTrackerAPI(0)
-
-    # # make a prediction
-    # prediction = trick_tracker.predict()
-
-    # # print the prediction
-    # print(prediction)
-    
-    cap = cv2.VideoCapture(0)
-
-    # Check if the webcam is opened correctly
-    if not cap.isOpened():
-        raise IOError("Cannot open webcam")
-    
-    # write the video to mov file
-    fourcc = cv2.VideoWriter_fourcc('m','p','4','v')
-
-    # get the frame width and height
-    frame_width = int(cap.get(3))
-    frame_height = int(cap.get(4))
-
-    # write the video to a file
-    out = cv2.VideoWriter('../webcam_capture.mov', fourcc, 25.0, (frame_width, frame_height))
-
-    while True:
-        ret, frame = cap.read()
-        # frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
-        out.write(frame)
-        cv2.imshow('Webcam', frame)
-
-        c = cv2.waitKey(1)
-        if c == 27:
-            break
-
-    cap.release()
-    out.release()
-    cv2.destroyAllWindows()
-
-    # initialize the api
-    trick_tracker = TrickTrackerAPI('../webcam_capture.mov')
+    trick_tracker = TrickTrackerAPI('../Ollie108.mov')
 
     # make a prediction
-    prediction = trick_tracker.predict()
+    classification = trick_tracker.classify()
+
+    # predict height
+    prediction = trick_tracker.predict_height()
 
     # print the prediction
+    print(classification)
     print(prediction)
     
 if __name__ == '__main__':

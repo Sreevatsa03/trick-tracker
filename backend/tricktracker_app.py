@@ -33,7 +33,13 @@ def trick():
     trick_api = TrickTrackerAPI("../webcam_capture.mov")
 
     # get prediction
-    prediction = trick_api.predict()
+    classification = trick_api.classify()
+
+    # predict height
+    prediction = trick_api.predict_height()
+
+    # append classification dict to prediction dict
+    prediction.update(classification)
 
     # return jsonified statline 
     response = jsonify(prediction)
