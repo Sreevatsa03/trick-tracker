@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var EBMLDecoder_1 = require("./EBMLDecoder");
+exports.Decoder = EBMLDecoder_1.default;
+var EBMLEncoder_1 = require("./EBMLEncoder");
+exports.Encoder = EBMLEncoder_1.default;
+var EBMLReader_1 = require("./EBMLReader");
+exports.Reader = EBMLReader_1.default;
+var tools = require("./tools");
+exports.tools = tools;
+var version = require("../package.json").version;
+exports.version = version;

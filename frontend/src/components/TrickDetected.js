@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import React from 'react';
-
 
 const TrickDetected = () => {
 
@@ -8,6 +7,7 @@ const TrickDetected = () => {
     // const [conf, setConf] = useState(null);
 
     const [data, setData] = useState({});
+    const [visible, setVisible] = useState(false);
 
 
     const beginQuery = async() => {
@@ -20,30 +20,24 @@ const TrickDetected = () => {
         console.log(dataobject);
         setData(dataobject);
       })
+
+      setVisible(true);
+
     }
-<<<<<<< HEAD
-
-    useEffect(() => {
-      fetchData();
-    }, []);
-
-    
-=======
-  
->>>>>>> 36012241 (more api debugging)
         
+    let conf = data["Accuracy"];
+    let trick = data["Prediction"];
+    let percent = parseFloat(conf)*100;
+    percent = Math.round(percent * 10) / 10
+    percent.toString();
+    percent = percent + "%";
 
-    if (true) {
-      return (
-          <div>
-            
-            <button onClick={ () => beginQuery() }>Make get request</button>
-            <h2>{data["Prediction"]} detected with {data["Accuracy"]} accuracy!</h2>
-          </div>
-        );
-    } else {
-        return (<div></div>);
-    }
+    return (
+        <div>
+          <button onClick={beginQuery}> Analyze trick </button>
+          {visible ? <h2 id="analysis">{trick} detected with {percent} accuracy!</h2> : null}
+        </div>
+      );
 
   
 };

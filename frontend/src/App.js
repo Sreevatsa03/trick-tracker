@@ -1,6 +1,5 @@
 import "./styles.css";
 import LiveWebcam from "./components/LiveWebcam";
-import TrickDetected from "./components/TrickDetected";
 
 export default function App() {
   return (
@@ -17,13 +16,6 @@ export default function App() {
           <main className="my-4">
             <LiveWebcam />
           </main>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-sm-12">
-          <footer className="my-4">
-            <TrickDetected />
-          </footer>
         </div>
       </div>
     </div>
