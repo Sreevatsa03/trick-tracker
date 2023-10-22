@@ -9,10 +9,6 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 cors = CORS(app)
 
-# create TrickTrackerAPI object
-trick_api = TrickTrackerAPI("../Ollie108.mov")
-
-
 @app.route("/")
 def home():
     """
@@ -20,28 +16,29 @@ def home():
     """
     return "Welcome to TrickTracker!"
 
-
-@app.route("/trick", methods=['GET'])
+@app.route("/trick", methods=['POST','GET'])
 def trick():
     """
     Trick prediction page
     """
 
-    # get prediction
-    prediction = trick_api.predict()
+    if request.method == "POST":
+        # get the file
+        video = request.files["video"]
 
-    # return jsonified statline
-    response = jsonify(prediction)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+        # save the file
+        video.save("../webcam_capture.mov")
 
-@app.route("/upload-video", methods=['POST'])
-def upload_video():
-    """
-    Upload video page
-    """
-    pass
+        # create TrickTrackerAPI object
+        trick_api = TrickTrackerAPI("../webcam_capture.mov")
 
+        # get prediction
+        prediction = trick_api.predict()
+
+        # return jsonified statline 
+        response = jsonify(prediction)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
