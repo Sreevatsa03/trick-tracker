@@ -20,12 +20,7 @@ const TrickDetected = () => {
     }
 
     useEffect(() => {
-      try {
-        fetchData();
-      } catch (e) {
-        console.log(e);
-      }
-      
+      fetchData();
     }, []);
 
     

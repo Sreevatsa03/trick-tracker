@@ -4,8 +4,10 @@ Flask app for EverythingHoops API
 
 from tricktracker_api import TrickTrackerAPI
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app)
 
 # create TrickTrackerAPI object
 trick_api = TrickTrackerAPI("../Ollie108.mov")
@@ -30,6 +32,7 @@ def trick():
 
     # return jsonified statline
     response = jsonify(prediction)
+    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 

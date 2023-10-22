@@ -197,36 +197,51 @@ def main():
     # # print the prediction
     # print(prediction)
 
+    #########  RECORD WEBCAM #########
 
-    cap = cv2.VideoCapture(0)
+    # cap = cv2.VideoCapture(0)
 
-    # Check if the webcam is opened correctly
-    if not cap.isOpened():
-        raise IOError("Cannot open webcam")
+    # # Check if the webcam is opened correctly
+    # if not cap.isOpened():
+    #     raise IOError("Cannot open webcam")
     
-    # write the video to mov file
-    fourcc = cv2.VideoWriter_fourcc('m','p','4','v')
+    # # write the video to mov file
+    # fourcc = cv2.VideoWriter_fourcc('m','p','4','v')
 
-    # get the frame width and height
-    frame_width = int(cap.get(3))
-    frame_height = int(cap.get(4))
+    # # get the frame width and height
+    # frame_width = int(cap.get(3))
+    # frame_height = int(cap.get(4))
 
-    # write the video to a file
-    out = cv2.VideoWriter('../webcam_capture.mov', fourcc, 25.0, (frame_width, frame_height))
+    # # write the video to a file
+    # out = cv2.VideoWriter('../webcam_capture.mov', fourcc, 25.0, (frame_width, frame_height))
 
-    while True:
-        ret, frame = cap.read()
-        # frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
-        out.write(frame)
-        cv2.imshow('Webcam', frame)
+    # while True:
+    #     ret, frame = cap.read()
+    #     # frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+    #     out.write(frame)
+    #     cv2.imshow('Webcam', frame)
 
-        c = cv2.waitKey(1)
-        if c == 27:
-            break
+    #     c = cv2.waitKey(1)
+    #     if c == 27:
+    #         break
 
-    cap.release()
-    out.release()
-    cv2.destroyAllWindows()
+    # cap.release()
+    # out.release()
+    # cv2.destroyAllWindows()
+
+    ######### RECORD WEBCAM RASPBERRY PI #########
+
+    
+    ##############################################
+
+    # initialize the api
+    trick_tracker = TrickTrackerAPI('../webcam_capture.mov')
+
+    # make a prediction
+    prediction = trick_tracker.predict()
+
+    # print the prediction
+    print(prediction)
     
 if __name__ == '__main__':
     main()
