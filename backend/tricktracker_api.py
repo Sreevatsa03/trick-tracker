@@ -231,7 +231,24 @@ def main():
 
     ######### RECORD WEBCAM RASPBERRY PI #########
 
-    
+    from picamera2 import Picamera2
+    from picamera2.encoders import H264Encoder
+    from picamera2.outputs import FfmpegOutput
+    import time
+
+    picam2 = Picamera2()
+    video_config = picam2.create_video_configuration()
+    picam2.configure(video_config)
+
+    encoder = H264Encoder(10000000)
+    output = FfmpegOutput('../webcam_capture.mov')
+
+    picam2.start_recording(encoder, output)
+
+    input('Press Enter to stop recording')
+
+    picam2.stop_recording()
+
     ##############################################
 
     # initialize the api
