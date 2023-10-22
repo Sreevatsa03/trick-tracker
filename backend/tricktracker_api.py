@@ -184,7 +184,7 @@ class TrickTrackerAPI:
         max_index = np.argmax(predictions[0])
 
         # return the prediction
-        return LABELS[max_index]
+        return {"Prediction": LABELS[max_index], "Accuracy": str(predictions[0][max_index])}
     
 def main():
     # initialize the api
