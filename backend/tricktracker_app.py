@@ -36,13 +36,15 @@ def trick():
     classification = trick_api.classify()
 
     # predict height
-    prediction = trick_api.predict_height()
+    # prediction = trick_api.predict_height()
 
     # append classification dict to prediction dict
-    prediction.update(classification)
+    # prediction.update(classification)
+
+    print(classification)
 
     # return jsonified statline 
-    response = jsonify(prediction)
+    response = jsonify(classification)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
