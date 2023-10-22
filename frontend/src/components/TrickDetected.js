@@ -10,8 +10,9 @@ const TrickDetected = () => {
 
     useEffect(() => {
       // Make a GET request to the Flask API using the fetch API
-      fetch(`/trick?Accuracy=${conf}&Prediction=${trick}`)
+      fetch('http://127.0.0.1:8000/trick?Accuracy=${conf}&Prediction=${trick}')
         .then((response) => {
+          console.log(response);
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }

@@ -188,13 +188,45 @@ class TrickTrackerAPI:
     
 def main():
     # initialize the api
-    trick_tracker = TrickTrackerAPI('../Ollie108.mov')
+    # trick_tracker = TrickTrackerAPI('../Ollie108.mov')
+    # trick_tracker = TrickTrackerAPI(0)
 
-    # make a prediction
-    prediction = trick_tracker.predict()
+    # # make a prediction
+    # prediction = trick_tracker.predict()
 
-    # print the prediction
-    print(prediction)
+    # # print the prediction
+    # print(prediction)
+
+
+    cap = cv2.VideoCapture(0)
+
+    # Check if the webcam is opened correctly
+    if not cap.isOpened():
+        raise IOError("Cannot open webcam")
+    
+    # write the video to mov file
+    fourcc = cv2.VideoWriter_fourcc('m','p','4','v')
+
+    # get the frame width and height
+    frame_width = int(cap.get(3))
+    frame_height = int(cap.get(4))
+
+    # write the video to a file
+    out = cv2.VideoWriter('../webcam_capture.mov', fourcc, 25.0, (frame_width, frame_height))
+
+    while True:
+        ret, frame = cap.read()
+        # frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+        out.write(frame)
+        cv2.imshow('Webcam', frame)
+
+        c = cv2.waitKey(1)
+        if c == 27:
+            break
+
+    cap.release()
+    out.release()
+    cv2.destroyAllWindows()
     
 if __name__ == '__main__':
     main()
