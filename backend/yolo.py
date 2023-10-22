@@ -9,13 +9,13 @@ import time
 model = YOLO("yolov8n-seg.pt")
 
 start = time.time()
-results = model.predict(source="../Ollie1.mov", show=True)
+results = model.predict(source="Ollie13.mov", show=True)
 end = time.time()
 
 t = end - start
 
 # find fps of video
-cap = cv2.VideoCapture("../Ollie1.mov")
+cap = cv2.VideoCapture("Ollie13.mov")
 relative_fps = cap.get(cv2.CAP_PROP_FRAME_COUNT) / t
 fps = cap.get(cv2.CAP_PROP_FPS)
 
@@ -61,7 +61,7 @@ y = skateboard_centers[:, 1]
 # y_data = y
 
 # Smooth the data using a moving average
-window_size = 5  # Can be adjusted based on the amount of smoothing you want
+window_size = 3  # Can be adjusted based on the amount of smoothing you want
 y_smooth = np.convolve(y, np.ones(window_size)/window_size, mode='valid')
 
 # Calculate the derivative
@@ -87,10 +87,10 @@ print("Largest gap:", largest_gap)
 print("FPS:", fps)
 
 # calculate time between breakpoints in seconds
-time_between = largest_gap / fps / time_ratio
+time_between = largest_gap / fps
 
 # calculate final height
-final_y = -4.9 * (time_between ** 2)
+final_y = 4.9 * (time_between ** 2)
 
 print("Final height:", final_y)
 
