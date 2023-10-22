@@ -11,10 +11,10 @@ const TrickDetected = () => {
 
     useEffect(() => {
       // Make a GET request to the Flask API
-      axios.get('http://127.0.0.1:8000/trick?Accuracy=${conf}&Prediction=${trick}')
+      axios.get('http://127.0.0.1:8000/trick')
         .then((response) => {
-          setTrick(response.trick);
-          setConf(response.conf);
+          setTrick(response.data.Prediction);
+          setConf(response.data.Accuracy);
         })
         .catch((error) => {
           console.error('Error fetching data:', error);
