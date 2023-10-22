@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import React from 'react';
 import axios from 'axios';
@@ -6,12 +6,12 @@ import axios from 'axios';
 
 const TrickDetected = () => {
 
-    const [trick, setTrick] = useState({})
-    const [conf, setConf] = useState({})
+    const [trick, setTrick] = useState(0)
+    const [conf, setConf] = useState(0)
 
     useEffect(() => {
       // Make a GET request to the Flask API
-      axios.get('/trick?Accuracy=${conf}&Prediction=${trick}')
+      axios.get('http://127.0.0.1:8000/trick?Accuracy=${conf}&Prediction=${trick}')
         .then((response) => {
           setTrick(response.trick);
           setConf(response.conf);
