@@ -4,3 +4,6 @@
 
 # numpy files
 *.npy
+
+# pycache
+__pycache__/

@@ -196,60 +196,36 @@ def main():
 
     # # print the prediction
     # print(prediction)
-
-    #########  RECORD WEBCAM #########
-
-    # cap = cv2.VideoCapture(0)
-
-    # # Check if the webcam is opened correctly
-    # if not cap.isOpened():
-    #     raise IOError("Cannot open webcam")
     
-    # # write the video to mov file
-    # fourcc = cv2.VideoWriter_fourcc('m','p','4','v')
+    cap = cv2.VideoCapture(0)
 
-    # # get the frame width and height
-    # frame_width = int(cap.get(3))
-    # frame_height = int(cap.get(4))
+    # Check if the webcam is opened correctly
+    if not cap.isOpened():
+        raise IOError("Cannot open webcam")
+    
+    # write the video to mov file
+    fourcc = cv2.VideoWriter_fourcc('m','p','4','v')
 
-    # # write the video to a file
-    # out = cv2.VideoWriter('../webcam_capture.mov', fourcc, 25.0, (frame_width, frame_height))
+    # get the frame width and height
+    frame_width = int(cap.get(3))
+    frame_height = int(cap.get(4))
 
-    # while True:
-    #     ret, frame = cap.read()
-    #     # frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
-    #     out.write(frame)
-    #     cv2.imshow('Webcam', frame)
+    # write the video to a file
+    out = cv2.VideoWriter('../webcam_capture.mov', fourcc, 25.0, (frame_width, frame_height))
 
-    #     c = cv2.waitKey(1)
-    #     if c == 27:
-    #         break
+    while True:
+        ret, frame = cap.read()
+        # frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+        out.write(frame)
+        cv2.imshow('Webcam', frame)
 
-    # cap.release()
-    # out.release()
-    # cv2.destroyAllWindows()
+        c = cv2.waitKey(1)
+        if c == 27:
+            break
 
-    ######### RECORD WEBCAM RASPBERRY PI #########
-
-    from picamera2 import Picamera2
-    from picamera2.encoders import H264Encoder
-    from picamera2.outputs import FfmpegOutput
-    import time
-
-    picam2 = Picamera2()
-    video_config = picam2.create_video_configuration()
-    picam2.configure(video_config)
-
-    encoder = H264Encoder(10000000)
-    output = FfmpegOutput('../webcam_capture.mov')
-
-    picam2.start_recording(encoder, output)
-
-    input('Press Enter to stop recording')
-
-    picam2.stop_recording()
-
-    ##############################################
+    cap.release()
+    out.release()
+    cv2.destroyAllWindows()
 
     # initialize the api
     trick_tracker = TrickTrackerAPI('../webcam_capture.mov')

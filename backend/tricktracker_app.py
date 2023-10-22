@@ -35,6 +35,13 @@ def trick():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route("/upload-video", methods=['POST'])
+def upload_video():
+    """
+    Upload video page
+    """
+    pass
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
