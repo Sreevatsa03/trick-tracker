@@ -1,17 +1,33 @@
 import React from 'react';
+import axios from 'axios';
+
 
 const TrickDetected = () => {
 
-    let trick = "Kickflip"
-    let confidence = .83 * 100
-    let percent = confidence.toString() + "%"
+    const [trick, setTrick] = useState({})
+    const [conf, setConf] = useState({})
+
+    useEffect(() => {
+      // Make a GET request to the Flask API
+      axios.get('/trick?Accuracy=${conf}&Prediction=${trick}')
+        .then((response) => {
+          setTrick(response.trick);
+          setConf(response.conf);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    }, [trick, conf]);
+
+    
 
     if (true) {
-        return (
-            <div>
-              <h2>{trick} detected with {percent} accuracy!</h2>
-            </div>
-          );
+      let percent = conf.toString() + "%"
+      return (
+          <div>
+            <h2>{trick} detected with {percent} accuracy!</h2>
+          </div>
+        );
     } else {
         return (<div></div>);
     }
