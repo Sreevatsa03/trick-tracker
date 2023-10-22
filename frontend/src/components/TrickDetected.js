@@ -24,7 +24,9 @@ const TrickDetected = () => {
       setVisible(true);
 
     }
-        
+    
+    let height = data["height"];
+    let isSkateboard = data["is_skateboard"];
     let conf = data["Accuracy"];
     let trick = data["Prediction"];
     let percent = parseFloat(conf)*100;
@@ -35,7 +37,7 @@ const TrickDetected = () => {
     return (
         <div>
           <button onClick={beginQuery}> Analyze trick </button>
-          {visible ? <h2 id="analysis">{trick} detected with {percent} accuracy!</h2> : null}
+          {isSkateboard ? (visible ? <h2 id="analysis">{trick} detected with {percent} accuracy!</h2> : null) : (visible ? <h2 id="analysis">No skateboard detected :p</h2> : null)}
         </div>
       );
 
