@@ -29,16 +29,16 @@ def trick():
         # save the file
         video.save("../webcam_capture.mov")
 
-        # create TrickTrackerAPI object
-        trick_api = TrickTrackerAPI("../webcam_capture.mov")
+    # create TrickTrackerAPI object
+    trick_api = TrickTrackerAPI("../webcam_capture.mov")
 
-        # get prediction
-        prediction = trick_api.predict()
+    # get prediction
+    prediction = trick_api.predict()
 
-        # return jsonified statline 
-        response = jsonify(prediction)
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        return response
+    # return jsonified statline 
+    response = jsonify(prediction)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
